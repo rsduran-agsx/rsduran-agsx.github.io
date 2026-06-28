@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────
+   "Control Plane" design tokens (Tailwind v4 CSS-first @theme)
+   Generates utilities: bg-ground, text-accent, border-hairline,
+   font-display/sans/mono, etc.
+   ─────────────────────────────────────────────────────────── */
+@theme {
+  --color-ground: #0b1118;
+  --color-surface: #121a24;
+  --color-raised: #1a2632;
+  --color-hairline: #243340;
+  --color-ink: #e6edf3;
+  --color-muted: #8a9bad;
+  --color-accent: #34e0c4;
+  --color-accent-deep: #0fb5a0;
+
+  /* diagram / status semantic colors (used only inside diagrams + pills) */
+  --color-subnet-green: #3fb950;
+  --color-subnet-blue: #2f81f7;
+  --color-amber: #e3b341;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora Variable", "Inter Variable", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+
+  --shadow-glow: 0 0 0 1px rgba(52, 224, 196, 0.18),
+    0 8px 40px -12px rgba(52, 224, 196, 0.22);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ground);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-hairline);
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-muted);
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── reusable utilities ─────────────────────────────────────── */
+
+/* faint blueprint grid background */
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(36, 51, 64, 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 51, 64, 0.35) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* mono eyebrow label */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  color: var(--color-accent);
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
