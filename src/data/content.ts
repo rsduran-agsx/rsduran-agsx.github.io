@@ -1,20 +1,23 @@
 /**
  * Single source of truth for all portfolio copy.
- * Facts come from Rein Duran's resume — keep accurate, never fabricate.
+ * Facts come from Rein Duran's resume. Keep accurate. Never fabricate.
+ * Style rules: short, confident sentences. No em dashes.
  */
 
 export const profile = {
   name: 'Rein Duran',
   role: 'Cloud / DevOps Engineer',
-  location: 'Manila / Pasig, PH',
-  eyebrow: 'Cloud / DevOps Engineer · Manila, PH · AWS',
-  headline: 'I build the AWS foundations\nother teams ship on.',
+  location: 'Manila, PH',
+  eyebrow: 'Cloud / DevOps Engineer · AWS · Manila',
+  headline: 'I build the AWS\nother teams ship on.',
   valueProp:
-    "Cloud / DevOps Engineer focused on AWS landing zones, container platforms, and Terraform. I cut a 13-account AWS estate's spend 26% and co-built my company's first Well-Architected multi-account foundation — 100% as code, zero drift.",
+    'Cloud / DevOps Engineer focused on AWS landing zones, containers, and Terraform. I cut a 13-account AWS bill 26% and co-built our first Well-Architected foundation at 100% as code.',
   email: 'reineirsamonteduran@gmail.com',
   linkedin: 'https://www.linkedin.com/in/rein-duran',
   github: 'https://github.com/rsduran-agsx',
   resumeUrl: '/Rein_Duran_Resume.pdf',
+  photo: '/portrait.png',
+  heroMesh: '/hero-mesh.jpg',
 } as const
 
 export type HeroStat = {
@@ -29,16 +32,16 @@ export type HeroStat = {
 export const heroStats: HeroStat[] = [
   { value: 26, prefix: '−', suffix: '%', label: 'AWS spend cut', sub: '$36.5k → $27k / mo' },
   { value: 100, suffix: '%', label: 'infra as code', sub: 'landing zone, zero drift' },
-  { value: 13, label: 'AWS accounts', sub: 'governed estate' },
-  { value: 15, label: 'microservices migrated', sub: 'GitLab → GitHub Actions' },
+  { value: 13, label: 'AWS accounts', sub: 'one governed estate' },
+  { value: 15, label: 'microservices moved', sub: 'GitLab → GitHub Actions' },
 ]
 
 export const about = {
   paragraphs: [
-    "I'm a Cloud DevOps Engineer at NMBLR AI, where I've spent the last ~2 years building and running the AWS platform the company's products ship on — multi-account landing zones, EKS / ECS container platforms, CI/CD, and the cost and security guardrails around them.",
-    'I came to infrastructure from electronics engineering — I placed 3rd nationally in the Philippine ECE licensure exam before pivoting into the cloud. That background is why I treat infrastructure the way I do: as a system with real constraints, tradeoffs, and failure modes worth designing for.',
+    "I'm a Cloud DevOps Engineer at NMBLR AI. For two years I've run the AWS platform our products ship on: landing zones, EKS and ECS, CI/CD, and the cost and security guardrails around them.",
+    'I came from electronics engineering. I placed 3rd nationally in the Philippine licensure exam before moving into cloud. That is how I treat infrastructure: a system with real constraints and failure modes worth designing for.',
   ],
-  now: 'Currently going deeper on EKS, Terraform module design, and FinOps.',
+  now: 'Right now: going deeper on EKS, Terraform modules, and FinOps.',
 } as const
 
 export type SkillGroup = {
@@ -52,7 +55,7 @@ export type SkillGroup = {
 export const skillGroups: SkillGroup[] = [
   {
     key: 'cloud',
-    label: 'Cloud — AWS',
+    label: 'Cloud · AWS',
     icon: 'cloud',
     items: [
       'EC2', 'ECS / Fargate', 'EKS', 'Lambda', 'RDS / Aurora', 'S3', 'VPC',
@@ -66,7 +69,7 @@ export const skillGroups: SkillGroup[] = [
     label: 'IaC & Config',
     icon: 'code',
     items: ['Terraform', 'AFT', 'Helm'],
-    caption: 'Terraform for everything that can be code — which is nearly everything.',
+    caption: 'Terraform for anything that can be code, which is nearly everything.',
   },
   {
     key: 'containers',
@@ -102,15 +105,15 @@ export const experiences: Experience[] = [
     company: 'NMBLR AI',
     companyNote: 'formerly Talino Labs / Amihan Global Strategies',
     title: 'Cloud DevOps Engineer',
-    dates: 'Oct 2024 — Present',
+    dates: 'Oct 2024 to Present',
     location: 'Ortigas, Pasig · PH',
     bullets: [
-      'Cut monthly AWS spend 26% ($36.5k → $27k) across 13 accounts — closed unused accounts, migrated 7 EKS clusters off Extended Support, and rightsized over-provisioned compute.',
-      "Co-engineered the company's first Well-Architected multi-account landing zone with AFT + a hub-and-spoke network, reaching 100% IaC coverage to eliminate manual config and drift.",
-      'Led the EKS → ECS Fargate migration as primary technical POC — removed 6× Extended Support cost and node patching, and trained TechOps + Dev on the first serverless container strategy.',
-      'Provisioned 10+ AWS services (Bedrock, API Gateway, Lambda, Fargate, EFS, RDS, Step Functions, VPC, IAM, CloudWatch) for the AI Engine + Data Platform — enabling LLM streaming, ML orchestration, and data pipelines.',
-      'Standardized infrastructure for 6 product ventures (Helm, GitHub Actions, Route 53, ALB, RDS/Aurora, S3, TLS) across shared and isolated environments.',
-      'Hardened security: remediated VAPT findings, deployed AWS WAF (managed + custom rules) for bot/fraud protection, and enforced path-based access control at the ALB.',
+      'Cut monthly AWS spend 26% ($36.5k to $27k) across 13 accounts. Closed dead accounts, moved 7 EKS clusters off Extended Support, and rightsized compute.',
+      "Co-built the company's first Well-Architected landing zone with AFT and a hub-and-spoke network. Hit 100% IaC coverage and killed config drift.",
+      'Led the EKS to ECS Fargate migration as primary POC. Removed 6x Extended Support cost and all node patching, then trained TechOps and Dev on it.',
+      'Provisioned 10+ AWS services for the AI Engine and Data Platform: Bedrock, API Gateway, Lambda, Fargate, EFS, RDS, Step Functions. Powered LLM streaming and ML pipelines.',
+      'Standardized infrastructure for 6 product ventures: Helm, GitHub Actions, Route 53, ALB, RDS, S3, TLS.',
+      'Hardened security: fixed VAPT findings, deployed AWS WAF with custom rules, and locked down access at the ALB.',
     ],
   },
 ]
@@ -136,11 +139,11 @@ export const caseStudies: CaseStudy[] = [
     badge: '−26%',
     badgeSub: '$36.5k → $27k / mo',
     problem:
-      'A 13-account AWS estate had drifted: unused accounts still billing, EKS clusters sliding onto premium Extended Support, and compute sized for peaks that never came.',
+      'A 13-account AWS estate had drifted. Unused accounts kept billing, EKS clusters slid onto premium Extended Support, and compute was sized for peaks that never came.',
     action:
-      'Audited spend across all 13 accounts, closed dead accounts, migrated 7 EKS clusters from Extended back to Standard Support, and rightsized over-provisioned resources.',
+      'Audited spend across all 13 accounts. Closed dead accounts, moved 7 EKS clusters back to Standard Support, and rightsized the over-provisioned resources.',
     impact:
-      'Monthly AWS spend dropped 26% — from $36.5k to $27k — without touching a single product SLA.',
+      'Monthly AWS spend dropped 26%, from $36.5k to $27k, with zero hit to any product SLA.',
     tech: ['Cost Explorer', 'EKS', 'Terraform', 'CloudWatch'],
     diagram: 'cost',
   },
@@ -151,26 +154,26 @@ export const caseStudies: CaseStudy[] = [
     badge: '100%',
     badgeSub: 'IaC coverage · 0 → 100%',
     problem:
-      'The company vended AWS accounts by hand — no governed foundation, inconsistent networking, and configuration drift no one could fully see.',
+      'The company vended AWS accounts by hand. No governed foundation, inconsistent networking, and config drift nobody could fully see.',
     action:
-      'Co-built the first Well-Architected multi-account landing zone: AFT for account vending, a hub-and-spoke network topology, and Terraform covering every resource.',
+      'Co-built the first Well-Architected landing zone: AFT for account vending, a hub-and-spoke network, and Terraform over every resource.',
     impact:
-      'Account provisioning became repeatable and reviewable, and IaC coverage hit 100% — manual setup and drift, gone.',
+      'Account provisioning became repeatable and reviewable. IaC coverage hit 100% and drift was gone.',
     tech: ['AFT', 'Terraform', 'AWS Organizations', 'Transit Gateway', 'IAM'],
     diagram: 'hubspoke',
   },
   {
     id: 'fargate',
     category: 'Modernization',
-    title: 'Killing Extended Support: EKS → ECS Fargate',
+    title: 'EKS to ECS Fargate, no nodes left',
     badge: '0 nodes',
     badgeSub: 'left to patch',
     problem:
-      'Several EKS clusters were stuck on Extended Support (6× the cost) and demanded constant node patching — toil with no product value.',
+      'Several EKS clusters were stuck on Extended Support at 6x the cost, and every node still needed patching. Pure toil, no product value.',
     action:
-      'Re-platformed workloads from EKS to ECS Fargate as lead technical POC, then documented the pattern and trained TechOps + Dev on the first serverless container strategy.',
+      'Re-platformed the workloads to ECS Fargate as lead POC. Documented the pattern and trained TechOps and Dev on the first serverless container strategy.',
     impact:
-      'Extended Support cost and node patching were eliminated entirely — no nodes left to own.',
+      'Extended Support cost and node patching disappeared. No nodes left to own.',
     tech: ['EKS', 'ECS', 'Fargate', 'Docker', 'Helm'],
     diagram: 'fargate',
   },
@@ -179,13 +182,13 @@ export const caseStudies: CaseStudy[] = [
     category: 'AI / Data Platform',
     title: 'Production infra for an AI engine',
     badge: '10+',
-    badgeSub: 'AWS services orchestrated',
+    badgeSub: 'AWS services wired',
     problem:
-      'A new AI Engine + Data Platform needed cloud infrastructure for LLM streaming, ML orchestration, and high-throughput data pipelines — across sandbox and production.',
+      'A new AI Engine and Data Platform needed infra for LLM streaming, ML orchestration, and heavy data pipelines, across sandbox and production.',
     action:
-      'Provisioned and wired 10+ AWS services — Bedrock, API Gateway, Lambda, Fargate, EFS, RDS, Step Functions, VPC, IAM, CloudWatch — into a coherent, observable platform.',
+      'Provisioned and wired 10+ AWS services into one observable platform: Bedrock, API Gateway, Lambda, Fargate, EFS, RDS, Step Functions.',
     impact:
-      "Shipped the foundation the product's LLM and data features run on today.",
+      "Shipped the foundation the product's AI and data features run on today.",
     tech: ['Bedrock', 'API Gateway', 'Lambda', 'Step Functions', 'RDS', 'EFS'],
     diagram: 'aiflow',
   },
@@ -200,17 +203,17 @@ export type SelectedWork = {
 export const selectedWork: SelectedWork[] = [
   {
     title: '15 fintech microservices → GitHub Actions',
-    desc: 'Migrated BayaniPay from legacy GitLab CI, refactoring outdated pipelines and standardizing deployment workflows.',
+    desc: 'Migrated BayaniPay off legacy GitLab CI. Refactored old pipelines and standardized every deploy.',
     tags: ['GitHub Actions', 'GitLab CI', 'CI/CD'],
   },
   {
     title: 'Zero-downtime SSL for BDO Unibank',
-    desc: "Performed critical certificate renewals for the bank's RPT & Payroll systems (Prod / UAT) with full regulatory compliance.",
+    desc: "Renewed certs for the bank's RPT and Payroll systems, Prod and UAT, with full regulatory compliance.",
     tags: ['TLS / ACM', 'Compliance', 'Fintech'],
   },
   {
-    title: 'WAF + VAPT remediation',
-    desc: 'Deployed AWS WAF with managed and custom rule sets for bot/fraud protection and path-based access control at the ALB.',
+    title: 'WAF and VAPT remediation',
+    desc: 'Deployed AWS WAF with managed and custom rules, plus path-based access control at the ALB.',
     tags: ['AWS WAF', 'Security', 'ALB'],
   },
 ]
@@ -220,30 +223,30 @@ export const credentials = {
     {
       name: 'AWS Certified Cloud Practitioner',
       issuer: 'Amazon Web Services',
-      dates: '2024 — 2027',
+      dates: '2024 to 2027',
       verifyUrl:
         'https://www.credly.com/badges/c6b9b65c-6c54-4b50-8d04-2f1225735e3c/public_url',
     },
   ],
   honor: {
-    title: 'ECE Licensure Exam — Rank 3 Nationally',
+    title: 'ECE Licensure Exam · Rank 3 Nationally',
     metric: '3rd',
     metricSub: 'of 3,130 examinees · 90.70%',
     framing:
-      'Placed 3rd nationally in the Philippine Electronics Engineering Licensure Exam — the top 0.1% of 3,130 examinees. The same systems rigor I now bring to cloud architecture.',
+      'Placed 3rd nationally in the Philippine Electronics Engineering Licensure Exam. Top 0.1% of 3,130 examinees. Same rigor, now pointed at cloud architecture.',
   },
   education: {
     degree: 'B.S. Electronics Engineering',
-    school: 'Polytechnic University of the Philippines — Manila',
-    dates: '2019 — 2023',
+    school: 'Polytechnic University of the Philippines, Manila',
+    dates: '2019 to 2023',
   },
 } as const
 
 export const contact = {
   headline: 'Open to Cloud / DevOps / SRE roles.',
   blurb:
-    "Building something on AWS, modernizing a platform, or just want to talk infrastructure? I'd like to hear about it.",
-  availability: 'Available · Manila / Pasig, PH · open to remote',
+    "Building on AWS, modernizing a platform, or just want to talk infrastructure? Say hello.",
+  availability: 'Available · Manila, PH · open to remote',
 } as const
 
 export type NavItem = { id: string; label: string }
@@ -252,7 +255,7 @@ export const navItems: NavItem[] = [
   { id: 'about', label: 'About' },
   { id: 'stack', label: 'Stack' },
   { id: 'experience', label: 'Experience' },
-  { id: 'work', label: 'Case Studies' },
+  { id: 'work', label: 'Work' },
   { id: 'credentials', label: 'Credentials' },
   { id: 'contact', label: 'Contact' },
 ]

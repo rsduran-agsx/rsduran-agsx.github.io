@@ -20,7 +20,7 @@ export function Stack() {
       id="stack"
       eyebrow="02 / Stack"
       title="The tools I build with"
-      intro="No proficiency bars — just what I actually reach for in production, grouped by what it does."
+      intro="No proficiency bars. Just what I actually reach for in production."
     >
       <div className="grid gap-5 md:grid-cols-2">
         {skillGroups.map((group, i) => {

@@ -70,7 +70,7 @@ export function About() {
         </div>
 
         <Reveal delay={0.1}>
-          <Terminal lines={TERM} title="bash — terraform" />
+          <Terminal lines={TERM} title="bash · terraform" />
           <p className="mt-3 text-center font-mono text-xs text-muted/70">
             The thesis: if it isn't in version control, it isn't real.
           </p>

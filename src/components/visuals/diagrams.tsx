@@ -242,7 +242,7 @@ function AiFlowDiagram() {
       <Arrow from={[cols.step + w / 2, top + 40]} to={[cols.step + w / 2, mid]} dir="down" accent />
       {/* observability */}
       <rect x={14} y={194} width={420} height={30} rx={7} className="fill-surface/40 stroke-hairline [stroke-width:1.5]" />
-      <text x={224} y={209} textAnchor="middle" dominantBaseline="middle" className="fill-muted font-mono" style={{ fontSize: 9 }}>CloudWatch — metrics · logs · traces</text>
+      <text x={224} y={209} textAnchor="middle" dominantBaseline="middle" className="fill-muted font-mono" style={{ fontSize: 9 }}>CloudWatch · metrics · logs · traces</text>
     </svg>
   )
 }

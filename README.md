@@ -17,8 +17,8 @@ A dark *"control plane"* single-page site that turns invisible infrastructure wo
 | Framework | Vite + React 18 + TypeScript |
 | Styling | Tailwind CSS v4 (CSS-first `@theme`) |
 | Motion | Motion (`motion/react`) |
-| 3D globe | react-globe.gl + three (code-split) |
-| Fonts | self-hosted Sora · Inter · JetBrains Mono |
+| Hero visual | Nano Banana (Gemini) mesh + duotone portrait |
+| Fonts | self-hosted Bricolage Grotesque · Inter · JetBrains Mono |
 | Hosting | GitHub Pages via GitHub Actions |
 
 ## Develop
@@ -37,7 +37,7 @@ npm run typecheck
 src/
   data/content.ts          # all copy — single source of truth
   components/sections/*     # Hero, About, Stack, Experience, CaseStudies, Credentials, Contact
-  components/visuals/*      # globe (react-globe.gl) + hand-built SVG architecture diagrams
+  components/visuals/*      # hand-built SVG architecture diagrams
   components/primitives/*   # Reveal, Section, StatCard, Terminal, Chip, Socials
 CLAUDE.md                   # design system + conventions
 ```

@@ -1,30 +1,71 @@
-import { lazy, Suspense } from 'react'
+import { useRef, type MouseEvent } from 'react'
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  useSpring,
+} from 'motion/react'
 import { FiArrowRight, FiFileText } from 'react-icons/fi'
 import { Reveal } from '@/components/primitives/Reveal'
 import { StatCard } from '@/components/primitives/StatCard'
 import { Socials } from '@/components/primitives/Socials'
-import { Globe as GlobeFallback } from '@/components/visuals/Globe'
 import { heroStats, profile } from '@/data/content'
 
-// Three.js globe is heavy → code-split it; show the SVG globe while it loads.
-const GlobeViz = lazy(() => import('@/components/visuals/GlobeViz'))
-
 export function Hero() {
+  const ref = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  })
+  const meshY = useTransform(scrollYProgress, [0, 1], ['0%', '22%'])
+  const meshOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 0.05])
+
+  // subtle 3D tilt on the portrait
+  const rx = useSpring(0, { stiffness: 110, damping: 14 })
+  const ry = useSpring(0, { stiffness: 110, damping: 14 })
+  function onMove(e: MouseEvent<HTMLDivElement>) {
+    if (reduce) return
+    const r = e.currentTarget.getBoundingClientRect()
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 10)
+    rx.set((((e.clientY - r.top) / r.height - 0.5) * -10))
+  }
+  function onLeave() {
+    rx.set(0)
+    ry.set(0)
+  }
+
   return (
     <section
+      ref={ref}
       id="home"
       className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pb-16 pt-28 lg:pt-24"
     >
-      {/* ambient background */}
-      <div className="grid-bg pointer-events-none absolute inset-0 -z-20 opacity-[0.5] [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
-      <div className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(52,224,196,0.10),transparent)]" />
+      {/* AI mesh backdrop (parallax) */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={reduce ? undefined : { y: meshY }}
+      >
+        <motion.img
+          src={profile.heroMesh}
+          alt=""
+          className="absolute right-0 top-0 h-[118%] w-full object-cover object-right"
+          style={reduce ? { opacity: 0.4 } : { opacity: meshOpacity }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(100deg,var(--color-ground)_32%,transparent_82%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-ground),transparent_55%)]" />
+      </motion.div>
+      <div className="grid-bg pointer-events-none absolute inset-0 -z-20 opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
 
       <div className="mx-auto w-full max-w-6xl">
-        <div className="grid items-center gap-12 lg:grid-cols-12">
-          {/* left — text */}
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-6">
+          {/* text */}
           <div className="lg:col-span-7">
             <Reveal>
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-hairline bg-surface/50 px-3.5 py-1.5 font-mono text-xs text-muted">
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-hairline bg-surface/60 px-3.5 py-1.5 font-mono text-xs text-muted backdrop-blur">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/70" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
@@ -34,14 +75,15 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <h1 className="font-display mt-6 text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.4rem]">
-                I build the <span className="text-accent">AWS foundations</span>{' '}
+              <h1 className="font-display mt-6 text-5xl font-bold leading-[0.98] tracking-tight sm:text-6xl lg:text-[4.4rem]">
+                I build the <span className="text-accent">cloud</span>
+                <br />
                 other teams ship on.
               </h1>
             </Reveal>
 
             <Reveal delay={0.16}>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              <p className="mt-6 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
                 {profile.valueProp}
               </p>
             </Reveal>
@@ -52,7 +94,7 @@ export function Hero() {
                   href="#work"
                   className="group inline-flex items-center gap-2 rounded-md bg-accent px-5 py-3 font-mono text-sm font-medium text-ground transition-transform hover:-translate-y-0.5"
                 >
-                  View case studies
+                  View work
                   <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
                 </a>
                 <a
@@ -68,26 +110,33 @@ export function Hero() {
             </Reveal>
           </div>
 
-          {/* right — globe */}
+          {/* portrait */}
           <div className="lg:col-span-5">
             <Reveal delay={0.2}>
-              <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[440px]">
-                <div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle,rgba(52,224,196,0.14),transparent_62%)] blur-md" />
-                <Suspense fallback={<GlobeFallback />}>
-                  <GlobeViz />
-                </Suspense>
-                <p className="mt-3 text-center font-mono text-xs text-muted">
-                  <span className="text-accent">◍</span> designed multi-region — 7
-                  AWS regions
-                </p>
-              </div>
+              <motion.div
+                onMouseMove={onMove}
+                onMouseLeave={onLeave}
+                style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
+                className="relative mx-auto w-full max-w-[320px] sm:max-w-[360px]"
+              >
+                <div className="pointer-events-none absolute inset-0 -z-10 translate-y-8 scale-90 rounded-[40%] bg-[radial-gradient(circle,rgba(52,224,196,0.2),transparent_62%)] blur-2xl" />
+                <img
+                  src={profile.photo}
+                  alt="Rein Duran, Cloud / DevOps Engineer"
+                  className="w-full select-none"
+                  draggable={false}
+                />
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-hairline bg-ground/70 px-3 py-1 font-mono text-[0.7rem] text-muted backdrop-blur">
+                  <span className="text-accent">●</span> Rein Duran · Manila
+                </div>
+              </motion.div>
             </Reveal>
           </div>
         </div>
 
         {/* stat strip */}
         <Reveal delay={0.1}>
-          <div className="mt-16 grid grid-cols-2 gap-4 border-t border-hairline pt-10 md:grid-cols-4">
+          <div className="mt-14 grid grid-cols-2 gap-4 border-t border-hairline pt-10 md:grid-cols-4">
             {heroStats.map((s) => (
               <StatCard
                 key={s.label}

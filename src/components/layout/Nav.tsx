@@ -40,7 +40,7 @@ export function Nav() {
         <a
           href="#home"
           className="flex items-center gap-1.5 font-mono text-sm"
-          aria-label="Rein Duran — home"
+          aria-label="Rein Duran, home"
         >
           <span className="text-accent">{'>'}</span>
           <span className="font-semibold text-ink">
