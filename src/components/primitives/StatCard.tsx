@@ -10,6 +10,7 @@ export function StatCard({
   label,
   sub,
   className,
+  bare = false,
 }: {
   value: number
   prefix?: string
@@ -18,6 +19,7 @@ export function StatCard({
   label: string
   sub?: string
   className?: string
+  bare?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
@@ -45,19 +47,37 @@ export function StatCard({
     <div
       ref={ref}
       className={cn(
-        'group relative rounded-lg border border-hairline bg-surface/60 p-5 transition-colors hover:border-accent/40',
+        bare
+          ? 'text-center'
+          : 'group relative rounded-lg border border-hairline bg-surface/60 p-5 transition-colors hover:border-accent/40',
         className,
       )}
     >
-      <div className="font-display text-3xl font-semibold tnum md:text-[2.5rem] md:leading-none">
+      <div
+        className={cn(
+          'font-display font-semibold tnum',
+          bare
+            ? 'text-5xl leading-none sm:text-6xl lg:text-7xl'
+            : 'text-3xl md:text-[2.5rem] md:leading-none',
+        )}
+      >
         <span className="text-accent">{prefix}</span>
         {shown}
         <span className="text-accent">{suffix}</span>
       </div>
-      <div className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
+      <div
+        className={cn(
+          'font-mono uppercase tracking-[0.12em] text-muted',
+          bare ? 'mt-4 text-xs' : 'mt-3 text-[0.7rem]',
+        )}
+      >
         {label}
       </div>
-      {sub && <div className="mt-1 text-xs text-muted/60">{sub}</div>}
+      {sub && (
+        <div className={cn('text-xs text-muted/60', bare ? 'mt-1.5' : 'mt-1')}>
+          {sub}
+        </div>
+      )}
     </div>
   )
 }

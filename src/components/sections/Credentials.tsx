@@ -6,7 +6,7 @@ import { credentials } from '@/data/content'
 export function Credentials() {
   const { honor, certifications, education } = credentials
   return (
-    <Section id="credentials" eyebrow="05 / Credentials" title="Credentials">
+    <Section id="credentials" eyebrow="Credentials" title="Credentials">
       {/* flagship honor */}
       <Reveal>
         <div className="rounded-xl border border-accent/30 bg-gradient-to-br from-accent/[0.08] to-transparent p-6 md:p-8">

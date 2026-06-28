@@ -40,7 +40,7 @@ export function CaseStudies() {
   return (
     <Section
       id="work"
-      eyebrow="04 / Case Studies"
+      eyebrow="Selected work"
       title="Infrastructure work, made visible"
       intro="DevOps has no app screenshots. So here are four problems, what I shipped, and what changed. Architecture included."
     >

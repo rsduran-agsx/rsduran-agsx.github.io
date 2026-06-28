@@ -16,8 +16,8 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/rein-duran',
   github: 'https://github.com/rsduran-agsx',
   resumeUrl: '/Rein_Duran_Resume.pdf',
-  photo: '/portrait.png',
-  heroMesh: '/hero-mesh.jpg',
+  heroBg: '/hero-core.jpg',
+  aboutBg: '/bg-aurora.jpg',
 } as const
 
 export type HeroStat = {
@@ -253,9 +253,22 @@ export type NavItem = { id: string; label: string }
 
 export const navItems: NavItem[] = [
   { id: 'about', label: 'About' },
-  { id: 'stack', label: 'Stack' },
-  { id: 'experience', label: 'Experience' },
   { id: 'work', label: 'Work' },
+  { id: 'stack', label: 'Stack' },
   { id: 'credentials', label: 'Credentials' },
   { id: 'contact', label: 'Contact' },
 ]
+
+// Cinematic copy for the full-bleed sections.
+export const cinematic = {
+  heroLine: 'Calm under any load.',
+  roleLine: 'Cloud / DevOps Engineer at NMBLR AI, since 2024.',
+  manifesto: [
+    'Behind every product that just works,',
+    'there is infrastructure no one sees.',
+    'Multi-account AWS, defined entirely as code.',
+    'Landing zones that vend themselves.',
+    'Clusters that scale and stay silent.',
+    'That silence is the work.',
+  ],
+} as const

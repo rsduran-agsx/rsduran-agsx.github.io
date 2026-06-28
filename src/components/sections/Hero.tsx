@@ -7,10 +7,8 @@ import {
   useSpring,
 } from 'motion/react'
 import { FiArrowRight, FiFileText } from 'react-icons/fi'
-import { Reveal } from '@/components/primitives/Reveal'
-import { StatCard } from '@/components/primitives/StatCard'
 import { Socials } from '@/components/primitives/Socials'
-import { heroStats, profile } from '@/data/content'
+import { profile, cinematic } from '@/data/content'
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null)
@@ -20,137 +18,112 @@ export function Hero() {
     target: ref,
     offset: ['start start', 'end start'],
   })
-  const meshY = useTransform(scrollYProgress, [0, 1], ['0%', '22%'])
-  const meshOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 0.05])
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '16%'])
+  const fade = useTransform(scrollYProgress, [0, 1], [1, 0.15])
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
+  const textFade = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
-  // subtle 3D tilt on the portrait
-  const rx = useSpring(0, { stiffness: 110, damping: 14 })
-  const ry = useSpring(0, { stiffness: 110, damping: 14 })
-  function onMove(e: MouseEvent<HTMLDivElement>) {
+  // mouse parallax on the core
+  const mx = useSpring(0, { stiffness: 60, damping: 18 })
+  const my = useSpring(0, { stiffness: 60, damping: 18 })
+  function onMove(e: MouseEvent<HTMLElement>) {
     if (reduce) return
     const r = e.currentTarget.getBoundingClientRect()
-    ry.set(((e.clientX - r.left) / r.width - 0.5) * 10)
-    rx.set((((e.clientY - r.top) / r.height - 0.5) * -10))
-  }
-  function onLeave() {
-    rx.set(0)
-    ry.set(0)
+    mx.set(((e.clientX - r.left) / r.width - 0.5) * -30)
+    my.set(((e.clientY - r.top) / r.height - 0.5) * -30)
   }
 
   return (
     <section
       ref={ref}
       id="home"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pb-16 pt-28 lg:pt-24"
+      onMouseMove={onMove}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
     >
-      {/* AI mesh backdrop (parallax) */}
+      {/* data-core background */}
       <motion.div
-        aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
-        style={reduce ? undefined : { y: meshY }}
+        style={reduce ? undefined : { y: bgY, opacity: fade }}
       >
         <motion.img
-          src={profile.heroMesh}
+          src={profile.heroBg}
           alt=""
-          className="absolute right-0 top-0 h-[118%] w-full object-cover object-right"
-          style={reduce ? { opacity: 0.4 } : { opacity: meshOpacity }}
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full scale-125 object-cover"
+          style={reduce ? undefined : { x: mx, y: my }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(100deg,var(--color-ground)_32%,transparent_82%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-ground),transparent_55%)]" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_28%,rgba(4,6,10,0.72)_72%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(to_top,var(--color-ground),transparent)]" />
       </motion.div>
-      <div className="grid-bg pointer-events-none absolute inset-0 -z-20 opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
 
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-6">
-          {/* text */}
-          <div className="lg:col-span-7">
-            <Reveal>
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-hairline bg-surface/60 px-3.5 py-1.5 font-mono text-xs text-muted backdrop-blur">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-                </span>
-                Open to Cloud / DevOps / SRE roles
-              </div>
-            </Reveal>
+      {/* content */}
+      <motion.div
+        className="relative z-10 mx-auto max-w-4xl text-center"
+        style={reduce ? undefined : { y: textY, opacity: textFade }}
+      >
+        <motion.p
+          initial={reduce ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="eyebrow"
+        >
+          {profile.eyebrow}
+        </motion.p>
 
-            <Reveal delay={0.08}>
-              <h1 className="font-display mt-6 text-5xl font-bold leading-[0.98] tracking-tight sm:text-6xl lg:text-[4.4rem]">
-                I build the <span className="text-accent">cloud</span>
-                <br />
-                other teams ship on.
-              </h1>
-            </Reveal>
+        <motion.h1
+          initial={reduce ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display mt-5 text-6xl font-bold leading-[0.92] tracking-tight sm:text-7xl lg:text-[8rem]"
+        >
+          Rein Duran
+        </motion.h1>
 
-            <Reveal delay={0.16}>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
-                {profile.valueProp}
-              </p>
-            </Reveal>
+        <motion.p
+          initial={reduce ? false : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.38 }}
+          className="mx-auto mt-6 max-w-xl text-lg text-ink/85 sm:text-xl"
+        >
+          {cinematic.heroLine}{' '}
+          <span className="text-muted">{cinematic.roleLine}</span>
+        </motion.p>
 
-            <Reveal delay={0.24}>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <a
-                  href="#work"
-                  className="group inline-flex items-center gap-2 rounded-md bg-accent px-5 py-3 font-mono text-sm font-medium text-ground transition-transform hover:-translate-y-0.5"
-                >
-                  View work
-                  <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
-                </a>
-                <a
-                  href={profile.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border border-hairline px-5 py-3 font-mono text-sm text-ink transition-colors hover:border-accent/50 hover:text-accent"
-                >
-                  <FiFileText /> Résumé
-                </a>
-                <Socials className="ml-1" />
-              </div>
-            </Reveal>
-          </div>
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.52 }}
+          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+        >
+          <a
+            href="#work"
+            className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-mono text-sm font-medium text-ground transition-transform hover:-translate-y-0.5"
+          >
+            View work
+            <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
+          </a>
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 font-mono text-sm text-ink backdrop-blur transition-colors hover:border-accent/50 hover:text-accent"
+          >
+            <FiFileText /> Résumé
+          </a>
+          <Socials className="ml-1" />
+        </motion.div>
+      </motion.div>
 
-          {/* portrait */}
-          <div className="lg:col-span-5">
-            <Reveal delay={0.2}>
-              <motion.div
-                onMouseMove={onMove}
-                onMouseLeave={onLeave}
-                style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
-                className="relative mx-auto w-full max-w-[320px] sm:max-w-[360px]"
-              >
-                <div className="pointer-events-none absolute inset-0 -z-10 translate-y-8 scale-90 rounded-[40%] bg-[radial-gradient(circle,rgba(52,224,196,0.2),transparent_62%)] blur-2xl" />
-                <img
-                  src={profile.photo}
-                  alt="Rein Duran, Cloud / DevOps Engineer"
-                  className="w-full select-none"
-                  draggable={false}
-                />
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-hairline bg-ground/70 px-3 py-1 font-mono text-[0.7rem] text-muted backdrop-blur">
-                  <span className="text-accent">●</span> Rein Duran · Manila
-                </div>
-              </motion.div>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* stat strip */}
-        <Reveal delay={0.1}>
-          <div className="mt-14 grid grid-cols-2 gap-4 border-t border-hairline pt-10 md:grid-cols-4">
-            {heroStats.map((s) => (
-              <StatCard
-                key={s.label}
-                value={s.value}
-                prefix={s.prefix}
-                suffix={s.suffix}
-                decimals={s.decimals}
-                label={s.label}
-                sub={s.sub}
-              />
-            ))}
-          </div>
-        </Reveal>
-      </div>
+      {/* scroll cue */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[0.7rem] uppercase tracking-[0.3em] text-muted"
+        animate={reduce ? undefined : { opacity: [0.3, 1, 0.3], y: [0, 6, 0] }}
+        transition={{ duration: 2.4, repeat: Infinity }}
+      >
+        scroll
+      </motion.div>
     </section>
   )
 }

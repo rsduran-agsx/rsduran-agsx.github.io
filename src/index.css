@@ -6,7 +6,7 @@
    font-display/sans/mono, etc.
    ─────────────────────────────────────────────────────────── */
 @theme {
-  --color-ground: #0b1118;
+  --color-ground: #04060a;
   --color-surface: #121a24;
   --color-raised: #1a2632;
   --color-hairline: #243340;

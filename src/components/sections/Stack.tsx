@@ -18,7 +18,7 @@ export function Stack() {
   return (
     <Section
       id="stack"
-      eyebrow="02 / Stack"
+      eyebrow="Stack"
       title="The tools I build with"
       intro="No proficiency bars. Just what I actually reach for in production."
     >
